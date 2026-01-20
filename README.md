@@ -22,12 +22,14 @@ This project demonstrates my approach to **full-cycle Quality Engineering** for 
 *   **Tech:** GitHub Actions, Allure Reports
 
 ## 📁 Project Structure
+```
 ecommerce-quality-lab/
-├── 01-qa-strategy/ # Strategic documentation
-├── 02-local-mock-nopcommerce/ # Controlled environment tests
+├── 01-qa-strategy/              # Strategic documentation
+├── 02-local-mock-nopcommerce/   # Controlled environment tests
 ├── 03-production-audit-opencart/# Real-world audit artifacts
-├── .github/workflows/ # CI/CD pipelines
-└── README.md # This file
+├── .github/workflows/           # CI/CD pipelines
+└── README.md                    # This file
+```
 
 ## 🛠️ Tech Stack
 | Category | Tools & Technologies |

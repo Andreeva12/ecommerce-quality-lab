@@ -1,0 +1,32 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+build/
+.gradle/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Allure Reports
+allure-results/
+allure-report/
+test-output/
+
+# Логи и системные файлы
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Конфиденциальные данные
+*.env
+*.key
+*.pem
+config.properties

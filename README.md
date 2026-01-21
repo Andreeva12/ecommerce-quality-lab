@@ -1,3 +1,9 @@
+![Java](https://img.shields.io/badge/Java-11-blue)
+![Selenium](https://img.shields.io/badge/Selenium-4.15-green)
+![Maven](https://img.shields.io/badge/Maven-3.6-red)
+![Docker](https://img.shields.io/badge/Docker-✓-blue)
+![Tests](https://img.shields.io/badge/Tests-4%20passing-brightgreen)
+
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
 
 ## 🎯 Project Vision
@@ -93,5 +99,117 @@ ecommerce-quality-lab/
 ## 📬 Connect & Feedback
 This is a living portfolio project. Feel free to explore, raise issues, or connect for discussion via [LinkedIn](https://www.linkedin.com/in/katsiaryna-malashchytskaya-741a40300).
 
+## 🚀 Quick Start
+
+### 1. Prerequisites
+Ensure you have the following installed:
+- Java 11+
+- Maven 3.6+
+- Docker & Docker Compose
+- Git
+
+### 2. Clone and Setup
+```bash
+git clone https://github.com/Andreeva12/ecommerce-quality-lab.git
+cd ecommerce-quality-lab
+```
+
+### 3. Start Local nopCommerce
+```bash
+cd 02-local-mock-nopcommerce
+docker-compose up -d
+
+# Wait for nopCommerce to start (1-2 minutes)
+# Access at: http://localhost:8080
+# Admin: admin@qa-lab.com / QaLab_2025!
+```
+
+### 4. Run Automation Tests
+```bash
+cd 02-local-mock-nopcommerce/ui-automation
+mvn clean test
+```
+
+### 5. Expected Output
+```
+✅ Home page title test passed!
+✅ Logo test passed!
+✅ Link found: Register
+✅ Link found: Log in
+✅ Link found: Shopping cart
+✅ Link found: Wishlist
+✅ Search box test passed!
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+```
+
+## 📈 Key Principles Demonstrated
+
+**Hybrid Testing Approach:** Combining precise automated checks with exploratory manual testing
+
+**Risk-Based Prioritization:** Focusing effort on high-impact business scenarios
+
+**Engineering Mindset:** Building maintainable, version-controlled test assets
+
+**Business Alignment:** Connecting test scenarios to real user journeys and metrics
+
+**Infrastructure as Code:** Dockerized environment for consistent testing
+
+## 🔄 Development Workflow
+
+```mermaid
+graph LR
+    A[Strategy Docs] --> B[Local Automation]
+    B --> C[Production Audit]
+    C --> D[CI/CD Pipeline]
+    D --> E[Quality Metrics]
+    
+    B --> F[4 Passing Tests]
+    F --> G[Page Objects]
+    G --> H[Framework]
+```
+
+## 📊 Next Steps
+
+### Immediate (Week 1):
+- [x] Basic automation framework
+- [ ] Add Allure reporting
+- [ ] Implement API tests
+
+### Short-term (Week 2):
+- [ ] Complete checkout flow automation
+- [ ] Add database validation
+- [ ] Start OpenCart exploratory testing
+
+### Long-term (Week 3-4):
+- [ ] CI/CD pipeline with GitHub Actions
+- [ ] Performance testing integration
+- [ ] Comprehensive test reporting dashboard
+
+## 🐛 Issue Reporting & Contribution
+
+Found an issue or have suggestions? Please:
+
+1. Check existing issues
+2. Create a new issue with detailed description
+3. Follow the project structure for contributions
+
+## 👩‍💻 Author
+
+**Andreeva12** - QA Engineer & Test Automation Specialist
+
+- Project: [eCommerce Quality Lab](https://github.com/Andreeva12/ecommerce-quality-lab)
+
+## 📬 Connect & Feedback
+
+This is a living portfolio project. Feel free to:
+
+- ⭐ Star the repo if you find it useful
+- 🐛 Report issues or suggest improvements
+- 🔄 Fork and adapt for your own projects
+- 💬 Connect for discussion via GitHub Issues
+
+---
+
+*Last Updated: January 2026 | Status: Automation Framework ✅ Working*
 ---
 *"Quality is not an act, it is a habit." — Aristotle*

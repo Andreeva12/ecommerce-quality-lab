@@ -5,39 +5,78 @@ This project demonstrates my approach to **full-cycle Quality Engineering** for 
 
 **The goal is to showcase:** not just technical testing skills, but **product thinking, risk assessment, and engineering practices** that bridge development and business impact.
 
+## 🚀 Current Status
+**✅ Automation Framework is LIVE and WORKING!**
+- 4 smoke tests passing successfully
+- Local nopCommerce environment running via Docker
+- Complete Page Object Model implementation
+- Automated test execution via Maven
+
 ## 🏗️ Architecture & Strategy
 ### 🔧 Phase 1: Local Controlled Environment (`/02-local-mock-nopcommerce`)
-*   **Purpose:** Shift-Left testing in isolation
-*   **Focus:** API contracts, data integrity, core business logic
-*   **Tech:** Java + Selenium, Postman Collections, SQL validation
+**Status:** ✅ COMPLETE & WORKING
+- **Purpose:** Shift-Left testing in isolation
+- **Focus:** UI automation, critical user flows, data validation
+- **Tech Stack:** Java 11, Selenium 4.15, TestNG, WebDriverManager, Maven
+- **Tests Implemented:**
+  - Home page load validation
+  - Logo and navigation verification
+  - Search functionality testing
+  - Critical link availability check
 
 ### 🎭 Phase 2: Production-like Audit (`/03-production-audit-opencart`)
-*   **Purpose:** Real-world exploratory testing
-*   **Focus:** UX, cross-browser compatibility, real-user scenarios
-*   **Deliverables:** Bug reports, risk analysis, usability findings
+**Status:** 📋 PLANNED
+- **Purpose:** Real-world exploratory testing
+- **Focus:** UX, cross-browser compatibility, real-user scenarios
+- **Deliverables:** Bug reports, risk analysis, usability findings
 
 ### 🔄 Phase 3: Continuous Quality (`/.github/workflows`)
-*   **Purpose:** Engineering mindset demonstration
-*   **Focus:** CI/CD integration, automated reporting
-*   **Tech:** GitHub Actions, Allure Reports
+**Status:** 🏗️ IN PROGRESS
+- **Purpose:** Engineering mindset demonstration
+- **Focus:** CI/CD integration, automated reporting
+- **Tech:** GitHub Actions, Allure Reports
 
 ## 📁 Project Structure
 ```
 ecommerce-quality-lab/
-├── 01-qa-strategy/              # Strategic documentation
-├── 02-local-mock-nopcommerce/   # Controlled environment tests
-├── 03-production-audit-opencart/# Real-world audit artifacts
-├── .github/workflows/           # CI/CD pipelines
-└── README.md                    # This file
+├── 01-qa-strategy/ # Strategic documentation
+│ ├── quality-vision.md
+│ ├── risk-based-testing.md
+│ ├── test-pyramid.md
+│ └── test-strategy-executive-summary.md
+│
+├── 02-local-mock-nopcommerce/ # ✅ WORKING AUTOMATION
+│ ├── docker-compose.yml # Local nopCommerce setup
+│ ├── ui-automation/ # ✅ COMPLETE FRAMEWORK
+│ │ ├── pom.xml # Maven configuration
+│ │ ├── testng.xml # TestNG configuration
+│ │ ├── src/main/java/com/ecommerce/qa/
+│ │ │ ├── framework/ # BaseTest, DriverManager
+│ │ │ └── pages/ # Page Objects (HomePage, LoginPage)
+│ │ └── src/test/java/com/ecommerce/qa/tests/
+│ │ ├── SmokeTest.java # ✅ 4 passing tests
+│ │ └── CriticalFlowTest.java
+│ ├── api-tests/ # 📋 Planned
+│ ├── db-validation/ # 📋 Planned
+│ └── test-data/ # 📋 Planned
+│
+├── 03-production-audit-opencart/# 📋 Planned
+│ ├── exploratory-testing/
+│ ├── ux-usability-findings/
+│ └── bug-reports/
+│
+├── .github/workflows/ # 🏗️ In Progress
+├── .gitignore
+└── README.md # This file
 ```
 
 ## 🛠️ Tech Stack
 | Category | Tools & Technologies |
-|----------|----------------------|
-| **Automation** | Java 11+, Selenium WebDriver, TestNG, Maven, Page Object Model |
-| **API Testing** | Postman, REST Assured, JSON Schema Validation |
-| **Database** | SQL (MySQL/PostgreSQL), Data Integrity Checks |
-| **CI/CD** | GitHub Actions, Allure Report |
+|----------|---------------------|
+| **Automation** | Java 11+, Selenium WebDriver 4.15, TestNG 7.8, Maven, Page Object Model |
+| **Driver Management** | WebDriverManager 5.6.3 (automatic) |
+| **Local Environment** | Docker, Docker Compose, nopCommerce, SQL Server |
+| **CI/CD** | GitHub Actions (planned), Allure Reports (planned) |
 | **Methodologies** | Risk-Based Testing, Shift-Left, Exploratory Testing, Agile |
 
 ## 🚀 Quick Start

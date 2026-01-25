@@ -1,0 +1,269 @@
+{
+  "info": {
+    "_postman_id": "nopcommerce-ecommerce-tests",
+    "name": "nopCommerce API Tests",
+    "description": "Postman collection for testing nopCommerce API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "🏠 Home Page Tests",
+      "item": [
+        {
+          "name": "GET Home Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Home Page Status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is less than 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test('Page contains nopCommerce', function () {",
+                  "    pm.expect(pm.response.text()).to.include('nopCommerce');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔐 Authentication Tests",
+      "item": [
+        {
+          "name": "GET Login Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login Form",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "Email",
+                  "value": "admin@yourstore.com",
+                  "type": "text"
+                },
+                {
+                  "key": "Password",
+                  "value": "admin",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Register Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/register",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔍 Search Tests",
+      "item": [
+        {
+          "name": "GET Search Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Search returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var searchResponse = pm.response.text().toLowerCase();",
+                  "var hasResults = searchResponse.includes('computer') || ",
+                  "                  searchResponse.includes('product') || ",
+                  "                  searchResponse.includes('search');",
+                  "pm.test('Search has results', function () {",
+                  "    pm.expect(hasResults).to.be.true;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/search?q=computer",
+              "host": ["{{baseUrl}}"],
+              "path": ["search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "computer"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📦 Product Tests",
+      "item": [
+        {
+          "name": "GET Products List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Computers Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/computers",
+              "host": ["{{baseUrl}}"],
+              "path": ["computers"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🧪 Smoke Test Suite",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// This is a comprehensive smoke test",
+              "console.log('Starting smoke test suite...');",
+              "",
+              "// Test 1: Home page",
+              "pm.test('Home page is accessible', function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.expect(pm.response.text()).to.include('nopCommerce');",
+              "});",
+              "",
+              "// Additional API calls for comprehensive testing",
+              "pm.sendRequest({",
+              "    url: pm.environment.get('baseUrl') + '/login',",
+              "    method: 'GET'",
+              "}, function (err, response) {",
+              "    pm.test('Login page is accessible', function () {",
+              "        pm.expect(response.code).to.equal(200);",
+              "        pm.expect(response.text()).to.include('Login');",
+              "    });",
+              "});",
+              "",
+              "pm.sendRequest({",
+              "    url: pm.environment.get('baseUrl') + '/search?q=computer',",
+              "    method: 'GET'",
+              "}, function (err, response) {",
+              "    pm.test('Search functionality works', function () {",
+              "        pm.expect(response.code).to.equal(200);",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "console.log('Request started at: ' + new Date().toISOString());",
+          "console.log('Base URL: ' + pm.environment.get('baseUrl'));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "console.log('Test completed at: ' + new Date().toISOString());"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="API Tests Suite" verbose="2">
+
+    <!-- Allure listener for API tests -->
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <!-- Health Check Tests -->
+    <test name="Health Check API Tests">
+        <classes>
+            <class name="com.ecommerce.qa.api.HealthCheckAPITest"/>
+        </classes>
+    </test>
+
+    <!-- Product API Tests -->
+    <test name="Product API Tests">
+        <classes>
+            <class name="com.ecommerce.qa.api.ProductAPITest"/>
+        </classes>
+    </test>
+
+</suite>

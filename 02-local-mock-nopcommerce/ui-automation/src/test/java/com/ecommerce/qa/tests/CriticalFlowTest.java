@@ -1,61 +1,72 @@
 package com.ecommerce.qa.tests;
 
+import com.ecommerce.qa.components.HeaderComponent;
 import com.ecommerce.qa.framework.BaseTest;
 import com.ecommerce.qa.pages.HomePage;
 import com.ecommerce.qa.pages.LoginPage;
+import io.qameta.allure.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@Epic("Критические бизнес-сценарии")
+@Feature("Авторизация и поиск товаров")
 public class CriticalFlowTest extends BaseTest {
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Тест авторизации существующего пользователя")
+    @Story("Пользователь должен успешно войти с валидными кредами")
     public void testAdminLogin() {
-        System.out.println("🚀 Starting admin login test...");
 
+        Allure.step("Открываем страницу логина");
         HomePage homePage = new HomePage(driver);
         homePage.clickLogin();
 
+        Allure.step("Вводим валидные учетные данные");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("admin@qa-lab.com", "QaLab_2025!");
 
-        // Даем время на перенаправление
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        HeaderComponent header = new HeaderComponent(driver);
 
-        String currentUrl = driver.getCurrentUrl();
-        System.out.println("🔗 Current URL after login: " + currentUrl);
+        Allure.step("Ожидаем появления элементов авторизованного пользователя");
+        wait.until(driver -> header.isUserLoggedIn());
 
-        // Проверяем что мы вышли со страницы логина
-        Assert.assertFalse(currentUrl.contains("/login"),
-                "Should be redirected from login page");
-
-        System.out.println("✅ Admin login test passed!");
+        Allure.step("Проверяем, что пользователь авторизован");
+        Assert.assertTrue(
+                header.isUserLoggedIn(),
+                "User should be logged in (My account and Log out visible)"
+        );
     }
 
-    @Test
-    public void testProductSearch() {
-        System.out.println("🔍 Testing product search...");
 
+    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Тест поиска товаров на сайте")
+    @Story("Пользователь может найти товары по ключевому слову")
+    public void testProductSearch() {
+        Allure.step("Выполняем поиск товара по ключевому слову 'computer'");
         HomePage homePage = new HomePage(driver);
         homePage.searchForProduct("computer");
 
-        // Ждем результатов поиска
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Allure.step("Ждем результатов поиска");
+        // Ждем изменения URL или появления результатов поиска
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.urlContains("search"),
+                ExpectedConditions.presenceOfElementLocated(org.openqa.selenium.By.xpath("//*[contains(text(), 'computer') or contains(text(), 'product')]"))
+        ));
 
         String pageSource = driver.getPageSource().toLowerCase();
         boolean hasResults = pageSource.contains("computer") ||
                 pageSource.contains("product") ||
                 driver.getCurrentUrl().contains("search");
 
-        Assert.assertTrue(hasResults, "Search should return results or show search page");
+        Allure.addAttachment("Результаты поиска", "text/plain",
+                "Page contains 'computer': " + pageSource.contains("computer") + "\n" +
+                        "Page contains 'product': " + pageSource.contains("product") + "\n" +
+                        "URL contains 'search': " + driver.getCurrentUrl().contains("search"));
 
-        System.out.println("✅ Product search test passed!");
+        Allure.step("Проверяем, что поиск вернул результаты");
+        Assert.assertTrue(hasResults, "Search should return results or show search page");
     }
 }

@@ -1,4 +1,4 @@
-![Java](https://img.shields.io/badge/Java-11-blue)
+![Java](https://img.shields.io/badge/Java-17-blue)
 ![Selenium](https://img.shields.io/badge/Selenium-4.15-green)
 ![Maven](https://img.shields.io/badge/Maven-3.6-red)
 ![Docker](https://img.shields.io/badge/Docker-✓-blue)
@@ -6,37 +6,49 @@
 ![TestNG](https://img.shields.io/badge/TestNG-7.8.0-blue)
 ![CI/CD Status](https://github.com/Andreeva12/ecommerce-quality-lab/actions/workflows/regression.yml/badge.svg)
 
-
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
 
 ## 🎯 Project Vision
-This project demonstrates my approach to **full-cycle Quality Engineering** for e-commerce systems. It implements a **hybrid strategy**: starting with controlled testing in a local mock environment (nopCommerce) and extending to production-like audits (OpenCart demo).
+This project demonstrates my approach to **full-cycle Quality Engineering** for e-commerce systems. It implements a **hybrid strategy**:
+- Controlled testing in a local mock environment (nopCommerce)
+- Production-like audits (OpenCart demo)
+- API testing via Postman/Newman
+- CI/CD integration with GitHub Actions
 
-**The goal is to showcase:** not just technical testing skills, but **product thinking, risk assessment, and engineering practices** that bridge development and business impact.
+The goal is to showcase not just technical testing skills, but **product thinking, risk assessment, and engineering practices** bridging development and business impact.
+
+---
 
 ## 🚀 Current Status
 **✅ Automation Framework is LIVE and WORKING!**
 - 4 smoke tests passing successfully
+- Critical flow tests (login, search, checkout)
 - Local nopCommerce environment running via Docker
-- Complete Page Object Model implementation
-- Automated test execution via Maven
+- Page Object Model + Selenium + TestNG
+- Maven execution
+- API tests in Postman/Newman ✅
+- CI/CD GitHub Actions pipeline (partial, ongoing)
+- Allure reports integrated
+
+---
 
 ## 🏗️ Architecture & Strategy
+
 ### 🔹 Local Controlled Environment — nopCommerce
-**Goal:** Show how to build a quality system from scratch.
-- ✅ UI automation (Java + Selenium + TestNG)
-- 📋 API validation (planned)
-- 🗄️ DB checks (planned)
-- 🔄 CI/CD regression (planned)
+- **UI Automation:** Java + Selenium + TestNG
+- **API Testing:** Postman/Newman
+- **DB Checks:** planned
+- **CI/CD Regression:** planned
 
 ### 🔹 Production-like Environment — OpenCart Demo
-**Goal:** Show how to test a real product.
-- 🔍 Exploratory testing
-- 🎨 UX & usability analysis
-- ⚠️ Risk-based testing
-- 📊 Business impact assessment
+- **Exploratory Testing**
+- **UX & Usability Analysis**
+- **Risk-Based Testing**
+- **Business Impact Assessment**
 
-## 🧪 What's Already Tested
+---
+
+## 🧪 Tests Implemented
 
 ### ✅ Smoke Tests (4 tests)
 1. Home page title verification
@@ -45,11 +57,21 @@ This project demonstrates my approach to **full-cycle Quality Engineering** for 
 4. Navigation links verification
 
 ### ✅ Critical Flow Tests
-1. **Complete purchase flow:** Search → Add to Cart → Verify Cart
-2. **User authentication:** Login/Logout
-3. **Search functionality:** Existing and non-existing products
+1. Complete purchase flow: Search → Add to Cart → Verify Cart
+2. User authentication: Login/Logout
+3. Search functionality: Existing & non-existing products
+
+### ✅ API Tests (Postman/Newman)
+- Login endpoint (cookie-based or JWT token)
+- Search products endpoint
+- Health check endpoint
+- All assertions passing (except expected 404 for missing category)
+- HTML reports generated via Newman
+
+---
 
 ## 📁 Project Structure
+
 ```
 ecommerce-quality-lab/
 ├── 01-qa-strategy/
@@ -264,3 +286,4 @@ This is a living portfolio project. Feel free to:
 *Last Updated: January 2026 | Status: Automation Framework ✅ Working*
 ---
 *"Quality is not an act, it is a habit." — Aristotle*
+<!-- TEST PUSH -->

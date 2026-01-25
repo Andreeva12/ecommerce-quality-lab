@@ -30,3 +30,14 @@ Thumbs.db
 *.key
 *.pem
 config.properties
+# Allure
+.allure/
+allure-results/
+allure-report/
+
+# Newman
+newman-report.html
+
+# IDE
+.idea/
+*.iml

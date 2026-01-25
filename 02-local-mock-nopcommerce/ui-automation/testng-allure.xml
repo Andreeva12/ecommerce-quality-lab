@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="E-commerce Allure Tests" verbose="2">
+
+    <!-- 🎯 КРИТИЧЕСКИ ВАЖНО: Allure listener -->
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <!-- 🧪 Smoke Tests с Allure -->
+    <test name="Smoke Tests" preserve-order="true">
+        <classes>
+            <class name="com.ecommerce.qa.tests.SmokeTest"/>
+        </classes>
+    </test>
+
+    <!-- 🚀 Critical Flow Tests с Allure -->
+    <test name="Critical Flow Tests" preserve-order="true">
+        <classes>
+            <class name="com.ecommerce.qa.tests.CriticalFlowTest"/>
+        </classes>
+    </test>
+
+</suite>

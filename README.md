@@ -85,7 +85,11 @@ ecommerce-quality-lab/
 │   ├── ux-usability-findings/
 │   └── bug-reports/
 │
-├── .github/workflows/      # 🏗️ In Progress
+├── .github/         # 🏗️ In Progress
+│   ├── .github.iml
+│   ├── modules.xml
+│   ├── workspace.xml
+│   └── misc.xml      
 ├── .gitignore
 └── README.md
 ```

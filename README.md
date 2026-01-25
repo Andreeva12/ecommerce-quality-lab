@@ -3,6 +3,8 @@
 ![Maven](https://img.shields.io/badge/Maven-3.6-red)
 ![Docker](https://img.shields.io/badge/Docker-✓-blue)
 ![Tests](https://img.shields.io/badge/Tests-4%20passing-brightgreen)
+![TestNG](https://img.shields.io/badge/TestNG-7.8.0-blue)
+![CI/CD Status](https://github.com/yourusername/ecommerce-quality-lab/actions/workflows/regression.yml/badge.svg)
 
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
 
@@ -19,67 +21,78 @@ This project demonstrates my approach to **full-cycle Quality Engineering** for 
 - Automated test execution via Maven
 
 ## 🏗️ Architecture & Strategy
-### 🔧 Phase 1: Local Controlled Environment (`/02-local-mock-nopcommerce`)
-**Status:** ✅ COMPLETE & WORKING
-- **Purpose:** Shift-Left testing in isolation
-- **Focus:** UI automation, critical user flows, data validation
-- **Tech Stack:** Java 11, Selenium 4.15, TestNG, WebDriverManager, Maven
-- **Tests Implemented:**
-  - Home page load validation
-  - Logo and navigation verification
-  - Search functionality testing
-  - Critical link availability check
+### 🔹 Local Controlled Environment — nopCommerce
+**Goal:** Show how to build a quality system from scratch.
+- ✅ UI automation (Java + Selenium + TestNG)
+- 📋 API validation (planned)
+- 🗄️ DB checks (planned)
+- 🔄 CI/CD regression (planned)
 
-### 🎭 Phase 2: Production-like Audit (`/03-production-audit-opencart`)
-**Status:** 📋 PLANNED
-- **Purpose:** Real-world exploratory testing
-- **Focus:** UX, cross-browser compatibility, real-user scenarios
-- **Deliverables:** Bug reports, risk analysis, usability findings
+### 🔹 Production-like Environment — OpenCart Demo
+**Goal:** Show how to test a real product.
+- 🔍 Exploratory testing
+- 🎨 UX & usability analysis
+- ⚠️ Risk-based testing
+- 📊 Business impact assessment
 
-### 🔄 Phase 3: Continuous Quality (`/.github/workflows`)
-**Status:** 🏗️ IN PROGRESS
-- **Purpose:** Engineering mindset demonstration
-- **Focus:** CI/CD integration, automated reporting
-- **Tech:** GitHub Actions, Allure Reports
+## 🧪 What's Already Tested
+
+### ✅ Smoke Tests (4 tests)
+1. Home page title verification
+2. Logo display check
+3. Search box existence
+4. Navigation links verification
+
+### ✅ Critical Flow Tests
+1. **Complete purchase flow:** Search → Add to Cart → Verify Cart
+2. **User authentication:** Login/Logout
+3. **Search functionality:** Existing and non-existing products
 
 ## 📁 Project Structure
 ```
 ecommerce-quality-lab/
-├── 01-qa-strategy/ # Strategic documentation
-│ ├── quality-vision.md
-│ ├── risk-based-testing.md
-│ ├── test-pyramid.md
-│ └── test-strategy-executive-summary.md
+├── 01-qa-strategy/
+│   ├── quality-vision.md
+│   ├── risk-based-testing.md
+│   ├── test-pyramid.md
+│   └── test-strategy-executive-summary.md
 │
-├── 02-local-mock-nopcommerce/ # ✅ WORKING AUTOMATION
-│ ├── docker-compose.yml # Local nopCommerce setup
-│ ├── ui-automation/ # ✅ COMPLETE FRAMEWORK
-│ │ ├── pom.xml # Maven configuration
-│ │ ├── testng.xml # TestNG configuration
-│ │ ├── src/main/java/com/ecommerce/qa/
-│ │ │ ├── framework/ # BaseTest, DriverManager
-│ │ │ └── pages/ # Page Objects (HomePage, LoginPage)
-│ │ └── src/test/java/com/ecommerce/qa/tests/
-│ │ ├── SmokeTest.java # ✅ 4 passing tests
-│ │ └── CriticalFlowTest.java
-│ ├── api-tests/ # 📋 Planned
-│ ├── db-validation/ # 📋 Planned
-│ └── test-data/ # 📋 Planned
+├── 02-local-mock-nopcommerce/
+│   ├── docker-compose.yml
+│   ├── ui-automation/
+│   │   ├── pom.xml
+│   │   ├── testng.xml
+│   │   ├── src/main/java/com/ecommerce/qa/
+│   │   │   ├── components/
+│   │   │   │   └── HeaderComponent.java
+│   │   │   ├── framework/
+│   │   │   │   └── BaseTest.java
+│   │   │   └── pages/
+│   │   │       ├── HomePage.java
+│   │   │       ├── LoginPage.java
+│   │   │       ├── ProductPage.java
+│   │   │       └── CartPage.java
+│   │   └── src/test/java/com/ecommerce/qa/tests/
+│   │       ├── SmokeTest.java
+│   │       └── CriticalFlowTest.java
+│   ├── api-tests/          # 📋 Planned
+│   ├── db-validation/      # 📋 Planned
+│   └── test-data/          # 📋 Planned
 │
-├── 03-production-audit-opencart/# 📋 Planned
-│ ├── exploratory-testing/
-│ ├── ux-usability-findings/
-│ └── bug-reports/
+├── 03-production-audit-opencart/  # 📋 Planned
+│   ├── exploratory-testing/
+│   ├── ux-usability-findings/
+│   └── bug-reports/
 │
-├── .github/workflows/ # 🏗️ In Progress
+├── .github/workflows/      # 🏗️ In Progress
 ├── .gitignore
-└── README.md # This file
+└── README.md
 ```
 
 ## 🛠️ Tech Stack
 | Category | Tools & Technologies |
 |----------|---------------------|
-| **Automation** | Java 11+, Selenium WebDriver 4.15, TestNG 7.8, Maven, Page Object Model |
+| **Automation** | Java 17+, Selenium WebDriver 4.15, TestNG 7.8, Maven, Page Object Model |
 | **Driver Management** | WebDriverManager 5.6.3 (automatic) |
 | **Local Environment** | Docker, Docker Compose, nopCommerce, SQL Server |
 | **CI/CD** | GitHub Actions (planned), Allure Reports (planned) |
@@ -88,7 +101,16 @@ ecommerce-quality-lab/
 ## 🚀 Quick Start
 1. **Explore the strategy:** Begin with `/01-qa-strategy/` to understand the testing approach
 2. **Run local tests:** Navigate to `/02-local-mock-nopcommerce/` and follow README there
-3. **Review audit findings:** Check `/03-production-audit-opencart/` for real-world QA artifacts
+
+## 📁 Project Structure
+```
+ecommerce-quality-lab/
+├── 01-qa-strategy/          # QA strategy documentation
+├── 02-local-mock-nopcommerce/ # nopCommerce automation
+├── 03-production-audit-opencart/ # OpenCart manual testing
+├── .github/workflows/       # GitHub Actions
+└── screenshots/             # Screenshots on test failure
+```
 
 ## 📈 Key Principles Demonstrated
 - **Hybrid Testing Approach:** Combining precise automated checks with exploratory manual testing

@@ -6,6 +6,7 @@
 ![TestNG](https://img.shields.io/badge/TestNG-7.8.0-blue)
 ![CI/CD Status](https://github.com/Andreeva12/ecommerce-quality-lab/actions/workflows/regression.yml/badge.svg)
 
+
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
 
 ## 🎯 Project Vision
@@ -99,8 +100,32 @@ ecommerce-quality-lab/
 | **Methodologies** | Risk-Based Testing, Shift-Left, Exploratory Testing, Agile |
 
 ## 🚀 Quick Start
-1. **Explore the strategy:** Begin with `/01-qa-strategy/` to understand the testing approach
-2. **Run local tests:** Navigate to `/02-local-mock-nopcommerce/` and follow README there
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/Andreeva12/ecommerce-quality-lab.git
+cd ecommerce-quality-lab
+```
+
+### 2️⃣ Start Local nopCommerce
+```bash
+cd 02-local-mock-nopcommerce
+docker-compose up -d
+```
+Wait 1-2 minutes
+Access: http://localhost:8080
+Admin: admin@qa-lab.com / QaLab_2025!
+
+3️⃣ Run Automation Tests
+```bash
+cd 02-local-mock-nopcommerce
+cd ui-automation
+mvn clean test                 # Run all tests
+mvn test -Dtest=SmokeTest      # Run only smoke tests
+mvn test -Dtest=CriticalFlowTest # Run only critical flow tests
+
+```
+1.Test results: target/surefire-reports/
+2.Screenshots on failure: screenshots/
 
 ## 📁 Project Structure
 ```

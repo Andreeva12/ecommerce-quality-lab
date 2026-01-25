@@ -4,7 +4,7 @@
 ![Docker](https://img.shields.io/badge/Docker-✓-blue)
 ![Tests](https://img.shields.io/badge/Tests-4%20passing-brightgreen)
 ![TestNG](https://img.shields.io/badge/TestNG-7.8.0-blue)
-![CI/CD Status](https://github.com/yourusername/ecommerce-quality-lab/actions/workflows/regression.yml/badge.svg)
+![CI/CD Status](https://github.com/Andreeva12/ecommerce-quality-lab/actions/workflows/regression.yml/badge.svg)
 
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
 

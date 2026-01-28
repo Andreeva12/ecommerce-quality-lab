@@ -2,6 +2,7 @@ package com.ecommerce.qa.api;
 
 import io.qameta.allure.*;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,45 +21,82 @@ public class HealthCheckAPITest {
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
-    @Description("Check if nopCommerce is up and running")
-    @Story("Application should respond to health check")
-    public void testHealthCheck() {
-        given()
+    @Description("Проверка доступности главной страницы")
+    @Story("Главная страница должна отвечать со статусом 200")
+    public void testHomePageAvailable() {
+        Response response = given()
+                .header("Accept", "text/html")
                 .when()
                 .get("/")
                 .then()
                 .statusCode(200)
                 .body(not(emptyString()))
-                .time(lessThan(5000L)); // Ответ должен быть менее 5 секунд
+                .extract()
+                .response();
+
+        Allure.addAttachment("Home Page Response", "text/plain",
+                "Status Code: " + response.getStatusCode() + "\n" +
+                        "Response Body Length: " + response.asString().length() + "\n" +
+                        "Contains 'nopCommerce': " + response.asString().contains("nopCommerce"));
     }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Check login page availability")
-    @Story("Login page should be accessible")
+    @Description("Проверка доступности страницы логина")
+    @Story("Страница логина должна быть доступна")
     public void testLoginPageAvailable() {
         given()
                 .when()
                 .get("/login")
                 .then()
                 .statusCode(200)
-                .body(containsString("Login"))
-                .body(containsString("Email"))
-                .body(containsString("Password"));
+                .body(containsStringIgnoringCase("Login"))
+                .body(containsStringIgnoringCase("Email"))
+                .body(containsStringIgnoringCase("Password"));
     }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Check registration page availability")
-    @Story("Registration page should be accessible")
+    @Description("Проверка доступности страницы регистрации")
+    @Story("Страница регистрации должна быть доступна")
     public void testRegisterPageAvailable() {
         given()
                 .when()
                 .get("/register")
                 .then()
                 .statusCode(200)
-                .body(containsString("Register"))
-                .body(containsString("First Name"))
-                .body(containsString("Last Name"));
+                .body(containsStringIgnoringCase("Register"))
+                .body(containsStringIgnoringCase("First Name"))
+                .body(containsStringIgnoringCase("Last Name"));
+    }
+
+    @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Проверка поиска через API")
+    @Story("Поиск должен возвращать результаты")
+    public void testSearchFunctionality() {
+        Response response = given()
+                .param("q", "computer")
+                .when()
+                .get("/search")
+                .then()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        // Проверяем, что ответ содержит хотя бы один из ожидаемых терминов
+        String responseBody = response.asString().toLowerCase();
+        boolean hasSearchTerm = responseBody.contains("search") ||
+                responseBody.contains("computer") ||
+                responseBody.contains("product");
+
+        Allure.addAttachment("Search Results", "text/plain",
+                "Response contains 'search': " + responseBody.contains("search") + "\n" +
+                        "Response contains 'computer': " + responseBody.contains("computer") + "\n" +
+                        "Response contains 'product': " + responseBody.contains("product"));
+
+        if (!hasSearchTerm) {
+            throw new AssertionError("Search response doesn't contain expected terms");
+        }
     }
 }

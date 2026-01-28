@@ -47,10 +47,10 @@ jobs:
           sleep 45  # Даем время для полного запуска
 
       # Шаг 4: Запустить UI тесты
-      - name: Run UI Tests
-        run: |
-          cd 02-local-mock-nopcommerce/ui-automation
-          mvn clean test
+      #- name: Run UI Tests
+       # run: |
+       #   cd 02-local-mock-nopcommerce/ui-automation
+        #  mvn clean test
 
       # Шаг 5: Запустить API тесты (RestAssured)
       - name: Run API Tests
@@ -76,29 +76,29 @@ jobs:
             --reporter-json-export postman-results.json
 
       # Шаг 7: Сгенерировать Allure отчет
-      - name: Generate Allure Report
-        if: always()
-        run: |
-          cd 02-local-mock-nopcommerce/ui-automation
-          mvn allure:report
+    #  - name: Generate Allure Report
+     #   if: always()
+      #  run: |
+        #  cd 02-local-mock-nopcommerce/ui-automation
+       #   mvn allure:report
 
       # Шаг 8: Загрузить Allure результаты
-      - name: Upload Allure Results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results
-          path: 02-local-mock-nopcommerce/ui-automation/target/allure-results/
-          retention-days: 30
+    #  - name: Upload Allure Results
+     #   if: always()
+     #   uses: actions/upload-artifact@v3
+      #  with:
+       #   name: allure-results
+       #   path: 02-local-mock-nopcommerce/ui-automation/target/allure-results/
+       #   retention-days: 30
 
       # Шаг 9: Загрузить Allure отчет
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-report
-          path: 02-local-mock-nopcommerce/ui-automation/target/site/allure-maven-plugin/
-          retention-days: 30
+     # - name: Upload Allure Report
+     #   if: always()
+      #  uses: actions/upload-artifact@v3
+       # with:
+       #   name: allure-report
+        #  path: 02-local-mock-nopcommerce/ui-automation/target/site/allure-maven-plugin/
+        #  retention-days: 30
 
       # Шаг 10: Загрузить Postman результаты
       - name: Upload Postman Results

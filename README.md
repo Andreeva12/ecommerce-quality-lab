@@ -4,7 +4,7 @@
 ![Docker](https://img.shields.io/badge/Docker-✓-blue)
 ![Tests](https://img.shields.io/badge/Tests-4%20passing-brightgreen)
 ![TestNG](https://img.shields.io/badge/TestNG-7.8.0-blue)
-![CI/CD Status](https://github.com/Andreeva12/ecommerce-quality-lab/actions/workflows/regression.yml/badge.svg)
+![CI/CD Status](https://github.com/Andreeva12/ecommerce-quality-lab/actions/workflows/ci-cd.yml/badge.svg)
 
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
 
@@ -286,4 +286,4 @@ This is a living portfolio project. Feel free to:
 *Last Updated: January 2026 | Status: Automation Framework ✅ Working*
 ---
 *"Quality is not an act, it is a habit." — Aristotle*
-<!-- TEST PUSH -->
+

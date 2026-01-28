@@ -12,20 +12,20 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    #services:
-     # mssql:
-      #  image: mcr.microsoft.com/mssql/server:2019-latest
-       # env:
-        #  SA_PASSWORD: "nopCommerce_db_password"
-         # ACCEPT_EULA: "Y"
-          #MSSQL_PID: "Express"
-       # ports:
-        #  - 1433:1433
-       # options: >-
-        #  --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P nopCommerce_db_password -Q 'SELECT 1'"
-         # --health-interval 10s
-         # --health-timeout 5s
-         # --health-retries 3
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          SA_PASSWORD: "nopCommerce_db_password"
+          ACCEPT_EULA: "Y"
+          MSSQL_PID: "Express"
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P nopCommerce_db_password -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
 
     steps:
       # Шаг 1: Получить код из репозитория
@@ -43,7 +43,7 @@ jobs:
       - name: Start nopCommerce in Docker
         run: |
           cd 02-local-mock-nopcommerce
-          docker compose up -d
+          docker-compose up -d
           sleep 45  # Даем время для полного запуска
 
       # Шаг 4: Запустить UI тесты
@@ -101,17 +101,17 @@ jobs:
         #  retention-days: 30
 
       # Шаг 10: Загрузить Postman результаты
-      #- name: Upload Postman Results
-        #if: always()
-      #  uses: actions/upload-artifact@v4
-      #  with:
-       #   name: postman-results
-        #  path: 02-local-mock-nopcommerce/api-tests/postman/postman-results.json
-        #  retention-days: 30
+      - name: Upload Postman Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-results
+          path: 02-local-mock-nopcommerce/api-tests/postman/postman-results.json
+          retention-days: 30
 
       # Шаг 11: Остановить Docker контейнеры
       - name: Stop Docker containers
         if: always()
         run: |
           cd 02-local-mock-nopcommerce
-          docker compose down
+          docker-compose down

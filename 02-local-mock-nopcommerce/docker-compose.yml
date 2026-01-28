@@ -1,7 +1,3 @@
-# Исправьте docker-compose.yml
-  cat > 02-local-mock-nopcommerce/docker-compose.yml << 'EOF'
-version: '3.8'
-
 services:
   nopcommerce_web:
     image: nopcommerce/nopcommerce:latest

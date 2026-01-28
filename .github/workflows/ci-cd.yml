@@ -30,11 +30,11 @@ jobs:
     steps:
       # Шаг 1: Получить код из репозитория
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Шаг 2: Установить Java 17
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -58,34 +58,20 @@ jobs:
           cd 02-local-mock-nopcommerce/ui-automation
           mvn test -DsuiteXmlFile=testng-api.xml
 
-      # Шаг 6: Установить и запустить Newman
+      # Шаг 6: Установить и запустить Newman (Postman CLI)
       - name: Run Postman Tests via Newman
         run: |
-          # Установить Node.js
+          # Установить Node.js (необходимо для Newman)
           curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
           sudo apt-get install -y nodejs
           
           # Установить Newman
           npm install -g newman
           
-          # Создать временный environment файл
-          echo '{
-            "id": "nopcommerce-ci-environment",
-            "name": "nopCommerce CI Environment",
-            "values": [
-              {
-                "key": "baseUrl",
-                "value": "http://localhost:8080",
-                "type": "default",
-                "enabled": true
-              }
-            ]
-          }' > postman-environment.json
-          
           # Запустить Postman коллекцию
           cd 02-local-mock-nopcommerce/api-tests/postman
           newman run nopcommerce-collection.json \
-            -e ../../postman-environment.json \
+            --environment nopcommerce-environment.json \
             --reporters cli,json \
             --reporter-json-export postman-results.json
 
@@ -96,28 +82,28 @@ jobs:
           cd 02-local-mock-nopcommerce/ui-automation
           mvn allure:report
 
-      # Шаг 8: Загрузить Allure результаты
+      # Шаг 8: Загрузить Allure результаты (ОБНОВЛЕНО v3 -> v4)
       - name: Upload Allure Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: 02-local-mock-nopcommerce/ui-automation/target/allure-results/
           retention-days: 30
 
-      # Шаг 9: Загрузить Allure отчет
+      # Шаг 9: Загрузить Allure отчет (ОБНОВЛЕНО v3 -> v4)
       - name: Upload Allure Report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: 02-local-mock-nopcommerce/ui-automation/target/site/allure-maven-plugin/
           retention-days: 30
 
-      # Шаг 10: Загрузить Postman результаты
+      # Шаг 10: Загрузить Postman результаты (ОБНОВЛЕНО v3 -> v4)
       - name: Upload Postman Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: postman-results
           path: 02-local-mock-nopcommerce/api-tests/postman/postman-results.json

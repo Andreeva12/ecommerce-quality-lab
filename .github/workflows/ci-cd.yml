@@ -24,7 +24,6 @@ jobs:
           echo ""
           echo "🔍 Проверка наличия папок:"
           [ -d "02-local-mock-nopcommerce" ] && echo "✅ 02-local-mock-nopcommerce существует" || echo "❌ 02-local-mock-nopcommerce не найден"
-          [ -f "02-local-mock-nopcommerce/docker-compose.yml" ] && echo "✅ docker-compose.yml существует" || echo "❌ docker-compose.yml не найден"
 
       # Шаг 3: Установить Java 17
       - name: Set up JDK 17
@@ -33,42 +32,44 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Шаг 4: Запустить Docker Compose с nopCommerce
-      - name: Start nopCommerce and MSSQL
+      # Шаг 4: Установить Docker Compose
+      - name: Setup Docker Compose
         run: |
-          echo "🐳 Запуск Docker контейнеров..."
-          
-          # Переходим в папку с docker-compose
+          echo "🐳 Установка Docker Compose..."
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
+          docker compose version
+
+      # Шаг 5: Запустить nopCommerce через Docker Compose
+      - name: Start nopCommerce
+        run: |
+          echo "🚀 Запуск nopCommerce..."
           cd 02-local-mock-nopcommerce
           
-          # Запускаем контейнеры
-          docker-compose up -d
+          # Используем docker compose (через пробел) вместо docker-compose
+          docker compose up -d
           
           # Ждем запуск
-          echo "⏳ Ожидание запуска контейнеров (60 секунд)..."
-          sleep 60
+          echo "⏳ Ожидание запуска контейнеров (30 секунд)..."
+          sleep 30
           
           # Проверяем статус
           docker ps
           echo ""
           echo "🔍 Проверка доступности nopCommerce..."
-          curl -I http://localhost:8080 || echo "nopCommerce еще не готов"
+          curl -f http://localhost:8080 && echo "✅ nopCommerce запущен!" || echo "⚠️ nopCommerce еще не готов"
 
-      # Шаг 5: Запустить тесты
-      - name: Run UI Tests
+      # Шаг 6: Запустить тесты
+      - name: Run Tests
         run: |
           echo "🧪 Запуск тестов..."
-          
-          # Переходим в папку с тестами
           cd 02-local-mock-nopcommerce/ui-automation
-          
-          # Запускаем тесты
           mvn clean test
 
-      # Шаг 6: Остановить Docker контейнеры
-      - name: Stop Docker containers
+      # Шаг 7: Остановить контейнеры
+      - name: Stop containers
         if: always()
         run: |
           echo "🛑 Остановка контейнеров..."
           cd 02-local-mock-nopcommerce
-          docker-compose down
+          docker compose down

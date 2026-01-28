@@ -32,13 +32,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Шаг 4: Установить Docker Compose
+      # Шаг 4: Установить Docker Compose (бинарник)
       - name: Setup Docker Compose
         run: |
           echo "🐳 Установка Docker Compose..."
-          sudo apt-get update
-          sudo apt-get install -y docker-compose-plugin
-          docker compose version
+          # Проверяем, установлен ли уже docker-compose
+          if ! command -v docker-compose &> /dev/null; then
+            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+          docker-compose --version
 
       # Шаг 5: Запустить nopCommerce через Docker Compose
       - name: Start nopCommerce
@@ -46,8 +49,8 @@ jobs:
           echo "🚀 Запуск nopCommerce..."
           cd 02-local-mock-nopcommerce
           
-          # Используем docker compose (через пробел) вместо docker-compose
-          docker compose up -d
+          # Используем docker-compose (через дефис)
+          docker-compose up -d
           
           # Ждем запуск
           echo "⏳ Ожидание запуска контейнеров (30 секунд)..."
@@ -72,4 +75,4 @@ jobs:
         run: |
           echo "🛑 Остановка контейнеров..."
           cd 02-local-mock-nopcommerce
-          docker compose down
+          docker-compose down

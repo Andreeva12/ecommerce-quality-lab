@@ -12,20 +12,20 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        env:
-          SA_PASSWORD: "nopCommerce_db_password"
-          ACCEPT_EULA: "Y"
-          MSSQL_PID: "Express"
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P nopCommerce_db_password -Q 'SELECT 1'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 3
+    #services:
+     # mssql:
+      #  image: mcr.microsoft.com/mssql/server:2019-latest
+       # env:
+        #  SA_PASSWORD: "nopCommerce_db_password"
+         # ACCEPT_EULA: "Y"
+          #MSSQL_PID: "Express"
+       # ports:
+        #  - 1433:1433
+       # options: >-
+        #  --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P nopCommerce_db_password -Q 'SELECT 1'"
+         # --health-interval 10s
+         # --health-timeout 5s
+         # --health-retries 3
 
     steps:
       # Шаг 1: Получить код из репозитория

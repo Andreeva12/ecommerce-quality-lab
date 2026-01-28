@@ -43,7 +43,7 @@ jobs:
       - name: Start nopCommerce in Docker
         run: |
           cd 02-local-mock-nopcommerce
-          docker-compose up -d
+          docker compose up -d
           sleep 45  # Даем время для полного запуска
 
       # Шаг 4: Запустить UI тесты
@@ -114,4 +114,4 @@ jobs:
         if: always()
         run: |
           cd 02-local-mock-nopcommerce
-          docker-compose down
+          docker compose down

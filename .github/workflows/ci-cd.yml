@@ -11,71 +11,72 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг 1: Получить код из репозитория
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Шаг 2: Показать структуру файлов
-      - name: Debug - Show directory structure
-        run: |
-          echo "📁 Структура репозитория:"
-          pwd
-          ls -la
-          echo ""
-          echo "🔍 Проверка наличия папок:"
-          [ -d "02-local-mock-nopcommerce" ] && echo "✅ 02-local-mock-nopcommerce существует" || echo "❌ 02-local-mock-nopcommerce не найден"
-
-      # Шаг 3: Установить Java 17
-      - name: Set up JDK 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Шаг 4: Установить Docker Compose (правильный способ)
-      - name: Setup Docker Compose
+      - name: Install Docker Compose
         run: |
-          echo "🐳 Установка Docker Compose..."
-          
-          # Скачиваем docker-compose бинарник
           sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          
-          # Даем права на выполнение
           sudo chmod +x /usr/local/bin/docker-compose
-          
-          # Проверяем установку
           docker-compose --version
 
-      # Шаг 5: Запустить nopCommerce через Docker Compose
-      - name: Start nopCommerce
+      - name: Fix docker-compose.yml if needed
         run: |
-          echo "🚀 Запуск nopCommerce..."
+          echo "🔧 Проверка docker-compose.yml..."
           cd 02-local-mock-nopcommerce
           
-          # Используем docker-compose (через дефис)
+          # Если есть build: . но нет Dockerfile, исправляем
+          if grep -q "build: \." docker-compose.yml && [ ! -f "Dockerfile" ]; then
+            echo "⚠️ Обнаружен build: . но нет Dockerfile. Исправляем..."
+            # Заменяем build: . на image: nopcommerce/nopcommerce:latest
+            sed -i 's|build: \.|image: nopcommerce/nopcommerce:latest|g' docker-compose.yml
+            echo "✅ docker-compose.yml исправлен"
+          fi
+          
+          # Удаляем устаревшую версию чтобы избежать предупреждения
+          sed -i '/^version:/d' docker-compose.yml || true
+
+      - name: Start nopCommerce
+        run: |
+          cd 02-local-mock-nopcommerce
+          
+          # Проверяем содержимое docker-compose.yml
+          echo "📋 Содержимое docker-compose.yml:"
+          cat docker-compose.yml
+          echo ""
+          
+          # Запускаем контейнеры
+          echo "🚀 Запуск контейнеров..."
           docker-compose up -d
           
           # Ждем запуск
-          echo "⏳ Ожидание запуска контейнеров (60 секунд)..."
-          sleep 60
+          echo "⏳ Ожидание запуска контейнеров (90 секунд)..."
+          sleep 90
           
           # Проверяем статус
+          echo "📊 Статус контейнеров:"
           docker ps
-          echo ""
-          echo "🔍 Проверка доступности nopCommerce..."
-          curl -I http://localhost:8080 && echo "✅ nopCommerce запущен!" || echo "⚠️ nopCommerce еще не готов"
+          
+          # Проверяем логи если что-то пошло не так
+          echo "📋 Логи nopCommerce:"
+          docker logs nopcommerce --tail 20 2>/dev/null || echo "Контейнер nopcommerce не запущен"
+          
+          echo "🔍 Проверка доступности..."
+          curl -f http://localhost:8080 && echo "✅ nopCommerce доступен!" || echo "❌ nopCommerce не доступен"
 
-      # Шаг 6: Запустить тесты
       - name: Run Tests
         run: |
-          echo "🧪 Запуск тестов..."
           cd 02-local-mock-nopcommerce/ui-automation
           mvn clean test
 
-      # Шаг 7: Остановить контейнеры
       - name: Stop containers
         if: always()
         run: |
-          echo "🛑 Остановка контейнеров..."
           cd 02-local-mock-nopcommerce
           docker-compose down

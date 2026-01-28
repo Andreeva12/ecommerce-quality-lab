@@ -1,14 +1,14 @@
+# ecommerce-quality-lab/docker-compose.yml
+version: '3.8'
+
 services:
   nopcommerce_web:
-    image: nopcommerce/nopcommerce:latest
+    build: .
     container_name: nopcommerce
     ports:
       - "8080:80"
     depends_on:
       - nopcommerce_database
-    environment:
-      Nop.Data.ConnectionString: "Server=nopcommerce_database;Database=nopCommerce;User ID=sa;Password=nopCommerce_db_password;Trusted_Connection=False;MultipleActiveResultSets=True;TrustServerCertificate=True"
-
   nopcommerce_database:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     container_name: nopcommerce_mssql_server

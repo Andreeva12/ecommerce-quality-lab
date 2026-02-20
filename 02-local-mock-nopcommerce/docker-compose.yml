@@ -1,21 +1,27 @@
-# ecommerce-quality-lab/docker-compose.yml
-version: '3.8'
+version: "3.8"
 
 services:
+  nopcommerce_database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: nopcommerce_mssql
+    environment:
+      SA_PASSWORD: "StrongPassword!123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - nopcommerce_db:/var/opt/mssql
+    restart: unless-stopped
+
   nopcommerce_web:
-    build: .
-    container_name: nopcommerce
+    image: nopcommerceteam/nopcommerce:latest
+    container_name: nopcommerce_web
     ports:
       - "8080:80"
     depends_on:
       - nopcommerce_database
-  nopcommerce_database:
-    image: "mcr.microsoft.com/mssql/server:2019-latest"
-    container_name: nopcommerce_mssql_server
-    environment:
-      SA_PASSWORD: "nopCommerce_db_password"
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "Express"
+    restart: unless-stopped
 
 volumes:
-  nopcommerce_data:
+  nopcommerce_db:

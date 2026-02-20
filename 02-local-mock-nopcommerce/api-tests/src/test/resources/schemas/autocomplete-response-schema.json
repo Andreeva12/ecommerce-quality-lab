@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "label": { "type": "string" },
+      "producturl": { "type": "string" },
+      "productpictureurl": { "type": ["string", "null"] },
+      "showlinktoresultsearch": { "type": "boolean" }
+    },
+    "required": ["label", "producturl", "showlinktoresultsearch"]
+  }
+}

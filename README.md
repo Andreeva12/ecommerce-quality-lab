@@ -2,8 +2,7 @@
 ![Selenium](https://img.shields.io/badge/Selenium-4.15-green)
 ![Maven](https://img.shields.io/badge/Maven-3.6-red)
 ![Docker](https://img.shields.io/badge/Docker-✓-blue)
-![Tests](https://img.shields.io/badge/Tests-4%20passing-brightgreen)
-![TestNG](https://img.shields.io/badge/TestNG-7.8.0-blue)
+![Tests](https://img.shields.io/badge/Tests-16%20passing-brightgreen)
 ![CI/CD Status](https://github.com/Andreeva12/ecommerce-quality-lab/actions/workflows/ci-cd.yml/badge.svg)
 
 # 🧪 eCommerce Quality Lab: Hybrid QA Engineering Portfolio
@@ -12,8 +11,8 @@
 This project demonstrates my approach to **full-cycle Quality Engineering** for e-commerce systems. It implements a **hybrid strategy**:
 - Controlled testing in a local mock environment (nopCommerce)
 - Production-like audits (OpenCart demo)
-- API testing via Postman/Newman
-- CI/CD integration with GitHub Actions
+- API testing via RestAssured and Postman/Newman
+- CI/CD integration with GitHub Actions + Allure reporting
 
 The goal is to showcase not just technical testing skills, but **product thinking, risk assessment, and engineering practices** bridging development and business impact.
 
@@ -21,30 +20,28 @@ The goal is to showcase not just technical testing skills, but **product thinkin
 
 ## 🚀 Current Status
 **✅ Automation Framework is LIVE and WORKING!**
-- 4 smoke tests passing successfully
-- Critical flow tests (login, search, checkout)
-- Local nopCommerce environment running via Docker
-- Page Object Model + Selenium + TestNG
-- Maven execution
-- API tests in Postman/Newman ✅
-- CI/CD GitHub Actions pipeline (partial, ongoing)
-- Allure reports integrated
+- **UI Tests:** 9+ tests covering smoke, critical flows, cart, checkout (all passing)
+- **API Tests:** 7+ tests (HealthCheck, Product API, Category Pages, Catalog JSON) with schema validation and negative scenarios
+- **Database Validation:** Post-order checks implemented in `CheckoutTest`
+- **Data-Driven Testing:** Excel integration (Apache POI) for product data verification
+- **CI/CD:** GitHub Actions workflow with Allure reporting (partial, ongoing)
+- **Reporting:** Allure reports integrated, published to GitHub Pages (optional)
 
 ---
 
 ## 🏗️ Architecture & Strategy
 
 ### 🔹 Local Controlled Environment — nopCommerce
-- **UI Automation:** Java + Selenium + TestNG
-- **API Testing:** Postman/Newman
-- **DB Checks:** planned
-- **CI/CD Regression:** planned
+- **UI Automation:** Java + Selenium + TestNG + Page Object Model
+- **API Testing:** RestAssured + Postman/Newman
+- **DB Checks:** JDBC validation after order placement
+- **Test Data:** Excel-driven tests for product catalog
 
 ### 🔹 Production-like Environment — OpenCart Demo
-- **Exploratory Testing**
-- **UX & Usability Analysis**
-- **Risk-Based Testing**
-- **Business Impact Assessment**
+- **Exploratory Testing** (planned)
+- **UX & Usability Analysis** (planned)
+- **Risk-Based Testing** (planned)
+- **Business Impact Assessment** (planned)
 
 ---
 
@@ -56,17 +53,36 @@ The goal is to showcase not just technical testing skills, but **product thinkin
 3. Search box existence
 4. Navigation links verification
 
-### ✅ Critical Flow Tests
-1. Complete purchase flow: Search → Add to Cart → Verify Cart
-2. User authentication: Login/Logout
-3. Search functionality: Existing & non-existing products
+### ✅ Critical Flow Tests (3 tests)
+1. Admin login
+2. Product search
+3. Complete purchase flow (guest checkout)
+
+### ✅ Cart & Checkout Tests (3 tests)
+1. Add product to cart
+2. Remove product from cart
+3. Cart total calculation
+4. Guest checkout with DB verification
+5. Logged-in user checkout
+
+### ✅ Data-Driven Product Tests (1 test, parameterized)
+- Verifies product name, price, SKU, and image presence for all products from Excel
+
+### ✅ Category Filter Tests (2 tests)
+- Animals category contains correct products
+- Books category contains correct products
+
+### ✅ API Tests (RestAssured)
+- **HealthCheckAPI:** Home, login, register, search (4 tests)
+- **ProductAPI:** Home, categories, product pages (6 tests)
+- **CategoryPages:** Animals, Book pages (2 tests)
+- **CatalogJSON:** Autocomplete endpoint with schema validation and negative tests (3 tests)
 
 ### ✅ API Tests (Postman/Newman)
-- Login endpoint (cookie-based or JWT token)
-- Search products endpoint
-- Health check endpoint
+- Login endpoint
+- Search products
+- Health check
 - All assertions passing (except expected 404 for missing category)
-- HTML reports generated via Newman
 
 ---
 
@@ -74,216 +90,139 @@ The goal is to showcase not just technical testing skills, but **product thinkin
 
 ```
 ecommerce-quality-lab/
-├── 01-qa-strategy/
-│   ├── quality-vision.md
-│   ├── risk-based-testing.md
-│   ├── test-pyramid.md
-│   └── test-strategy-executive-summary.md
-│
-├── 02-local-mock-nopcommerce/
-│   ├── docker-compose.yml
-│   ├── ui-automation/
-│   │   ├── pom.xml
-│   │   ├── testng.xml
-│   │   ├── src/main/java/com/ecommerce/qa/
-│   │   │   ├── components/
-│   │   │   │   └── HeaderComponent.java
-│   │   │   ├── framework/
-│   │   │   │   └── BaseTest.java
-│   │   │   └── pages/
-│   │   │       ├── HomePage.java
-│   │   │       ├── LoginPage.java
-│   │   │       ├── ProductPage.java
-│   │   │       └── CartPage.java
-│   │   └── src/test/java/com/ecommerce/qa/tests/
-│   │       ├── SmokeTest.java
-│   │       └── CriticalFlowTest.java
-│   ├── api-tests/          # 📋 Planned
-│   ├── db-validation/      # 📋 Planned
-│   └── test-data/          # 📋 Planned
-│
-├── 03-production-audit-opencart/  # 📋 Planned
-│   ├── exploratory-testing/
-│   ├── ux-usability-findings/
-│   └── bug-reports/
-│
-├── .github/         # 🏗️ In Progress
-│   ├── .github.iml
-│   ├── modules.xml
-│   ├── workspace.xml
-│   └── misc.xml      
-├── .gitignore
+├── 01-qa-strategy/ # Strategy docs (quality vision, risk matrix)
+├── 02-local-mock-nopcommerce/ # Main automation project
+│ ├── docker-compose.yml # nopCommerce + MSSQL
+│ ├── ui-automation/ # Selenium + TestNG tests
+│ │ ├── pom.xml
+│ │ ├── testng-allure.xml
+│ │ ├── src/main/java/com/ecommerce/qa/
+│ │ │ ├── components/
+│ │ │ ├── pages/
+│ │ │ └── utils/ # ExcelReader, ProductData
+│ │ └── src/test/java/com/ecommerce/qa/
+│ │ ├── api/ # RestAssured tests (moved to api‑tests module)
+│ │ ├── framework/ # BaseTest
+│ │ └── tests/ # UI test classes
+│ ├── api-tests/ # Dedicated API tests module
+│ │ ├── pom.xml
+│ │ ├── api-tests-suite.xml
+│ │ ├── src/test/java/com/ecommerce/qa/api/
+│ │ │ ├── HealthCheckAPITest.java
+│ │ │ ├── ProductAPITest.java
+│ │ │ ├── CategoryPagesTest.java
+│ │ │ └── CatalogAPITest.java # JSON autocomplete tests
+│ │ └── src/test/resources/schemas/ # JSON schemas
+│ │ ├── autocomplete-response-schema.json
+│ │ └── add-to-cart-response-schema.json
+│ ├── db-validation/ # DB helpers and SQL scripts
+│ │ ├── pom.xml
+│ │ ├── src/main/java/com/ecommerce/qa/db/DatabaseHelper.java
+│ │ └── sql-checks.md
+│ └── postman/ # Postman collections
+│ ├── nopcommerce-collection.json
+│ └── nopcommerce-environment.json
+├── 03-production-audit-opencart/ # Planned
+│ └── risk-matrix.md
+├── .github/workflows/ci-cd.yml # CI/CD pipeline
 └── README.md
 ```
 
+
 ## 🛠️ Tech Stack
+```
 | Category | Tools & Technologies |
 |----------|---------------------|
-| **Automation** | Java 17+, Selenium WebDriver 4.15, TestNG 7.8, Maven, Page Object Model |
-| **Driver Management** | WebDriverManager 5.6.3 (automatic) |
+| **Automation** | Java 17+, Selenium 4.20, TestNG 7.9, Maven, Page Object Model |
+| **Driver Management** | WebDriverManager 5.8.0 |
+| **API Testing** | RestAssured 5.4.0, Postman, Newman |
+| **Data Handling** | Apache POI 5.2.5 (Excel), JDBC (SQL Server) |
+| **Reporting** | Allure 2.25.0 |
 | **Local Environment** | Docker, Docker Compose, nopCommerce, SQL Server |
-| **CI/CD** | GitHub Actions (planned), Allure Reports (planned) |
-| **Methodologies** | Risk-Based Testing, Shift-Left, Exploratory Testing, Agile |
-
-## 🚀 Quick Start
-### 1️⃣ Clone Repository
-```bash
-git clone https://github.com/Andreeva12/ecommerce-quality-lab.git
-cd ecommerce-quality-lab
+| **CI/CD** | GitHub Actions |
+| **Methodologies** | Risk-Based Testing, Shift-Left, Exploratory Testing |
 ```
-
-### 2️⃣ Start Local nopCommerce
-```bash
-cd 02-local-mock-nopcommerce
-docker-compose up -d
-```
-Wait 1-2 minutes
-Access: http://localhost:8080
-Admin: admin@qa-lab.com / QaLab_2025!
-
-3️⃣ Run Automation Tests
-```bash
-cd 02-local-mock-nopcommerce
-cd ui-automation
-mvn clean test                 # Run all tests
-mvn test -Dtest=SmokeTest      # Run only smoke tests
-mvn test -Dtest=CriticalFlowTest # Run only critical flow tests
-
-```
-1.Test results: target/surefire-reports/
-2.Screenshots on failure: screenshots/
-
-## 📁 Project Structure
-```
-ecommerce-quality-lab/
-├── 01-qa-strategy/          # QA strategy documentation
-├── 02-local-mock-nopcommerce/ # nopCommerce automation
-├── 03-production-audit-opencart/ # OpenCart manual testing
-├── .github/workflows/       # GitHub Actions
-└── screenshots/             # Screenshots on test failure
-```
-
-## 📈 Key Principles Demonstrated
-- **Hybrid Testing Approach:** Combining precise automated checks with exploratory manual testing
-- **Risk-Based Prioritization:** Focusing effort on high-impact business scenarios
-- **Engineering Mindset:** Building maintainable, version-controlled test assets
-- **Business Alignment:** Connecting test scenarios to real user journeys and metrics
-
-## 📬 Connect & Feedback
-This is a living portfolio project. Feel free to explore, raise issues, or connect for discussion via [LinkedIn](https://www.linkedin.com/in/katsiaryna-malashchytskaya-741a40300).
-
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-Ensure you have the following installed:
-- Java 11+
+- Java 17+
 - Maven 3.6+
 - Docker & Docker Compose
 - Git
+- Node.js (for Newman)
 
 ### 2. Clone and Setup
-```bash
+```
+bash
 git clone https://github.com/Andreeva12/ecommerce-quality-lab.git
 cd ecommerce-quality-lab
 ```
-
-### 3. Start Local nopCommerce
-```bash
-cd 02-local-mock-nopcommerce
-docker-compose up -d
-
-# Wait for nopCommerce to start (1-2 minutes)
-# Access at: http://localhost:8080
+3. Start Local nopCommerce
+  ```
+bash
+   cd 02-local-mock-nopcommerce
+   docker-compose up -d
+   ```
+# Wait 1-2 minutes
+# Access: http://localhost:8080
 # Admin: admin@qa-lab.com / QaLab_2025!
-```
+4. Run All Tests
+  ``` bash
+   cd 02-local-mock-nopcommerce/ui-automation
+   mvn clean test
+   ```
+5. Run API Tests Only
+   ``` bash
+   mvn test -DsuiteXmlFile=testng-api.xml
+    ```
+6. Generate Allure Report
+   ```   bash
+   mvn allure:serve
+    ```
+7. Run Postman Collection (optional)
+   ``` bash
+   cd ../api-tests/postman
+   newman run nopcommerce-collection.json --environment nopcommerce-environment.json
+   ```
+📊 CI/CD Pipeline
+GitHub Actions workflow (.github/workflows/ci-cd.yml) runs on:
 
-### 4. Run Automation Tests
-```bash
-cd 02-local-mock-nopcommerce/ui-automation
-mvn clean test
-```
+push to main / develop
 
-### 5. Expected Output
-```
-✅ Home page title test passed!
-✅ Logo test passed!
-✅ Link found: Register
-✅ Link found: Log in
-✅ Link found: Shopping cart
-✅ Link found: Wishlist
-✅ Search box test passed!
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
-```
+pull_request to main
 
-## 📈 Key Principles Demonstrated
+nightly schedule (22:00 UTC)
 
-**Hybrid Testing Approach:** Combining precise automated checks with exploratory manual testing
+Steps:
 
-**Risk-Based Prioritization:** Focusing effort on high-impact business scenarios
+Start MSSQL service container
 
-**Engineering Mindset:** Building maintainable, version-controlled test assets
+Checkout code
 
-**Business Alignment:** Connecting test scenarios to real user journeys and metrics
+Setup JDK 17
 
-**Infrastructure as Code:** Dockerized environment for consistent testing
+Launch nopCommerce via Docker Compose
 
-## 🔄 Development Workflow
+Run UI tests, API tests, Postman/Newman
 
-```mermaid
-graph LR
-    A[Strategy Docs] --> B[Local Automation]
-    B --> C[Production Audit]
-    C --> D[CI/CD Pipeline]
-    D --> E[Quality Metrics]
-    
-    B --> F[4 Passing Tests]
-    F --> G[Page Objects]
-    G --> H[Framework]
-```
+Generate Allure report
 
-## 📊 Next Steps
+Upload Allure results and Postman report as artifacts
 
-### Immediate (Week 1):
-- [x] Basic automation framework
-- [ ] Add Allure reporting
-- [ ] Implement API tests
+Deploy Allure report to GitHub Pages (if configured)
 
-### Short-term (Week 2):
-- [ ] Complete checkout flow automation
-- [ ] Add database validation
-- [ ] Start OpenCart exploratory testing
+📈 Key Metrics
+Test stability: 100% (all tests pass on local & CI)
 
-### Long-term (Week 3-4):
-- [ ] CI/CD pipeline with GitHub Actions
-- [ ] Performance testing integration
-- [ ] Comprehensive test reporting dashboard
+Coverage: 20+ UI scenarios, 10+ API endpoints
 
-## 🐛 Issue Reporting & Contribution
+Execution time: UI ~30s, API ~5s (parallel)
 
-Found an issue or have suggestions? Please:
+Defect prevention: data integrity checks in checkout flow
 
-1. Check existing issues
-2. Create a new issue with detailed description
-3. Follow the project structure for contributions
 
-## 👩‍💻 Author
+📬 Connect & Feedback
+This is a living portfolio project. Feel free to explore, raise issues, or connect for discussion via LinkedIn.
 
-**Andreeva12** - QA Engineer & Test Automation Specialist
-
-- Project: [eCommerce Quality Lab](https://github.com/Andreeva12/ecommerce-quality-lab)
-
-## 📬 Connect & Feedback
-
-This is a living portfolio project. Feel free to:
-
-- ⭐ Star the repo if you find it useful
-- 🐛 Report issues or suggest improvements
-- 🔄 Fork and adapt for your own projects
-- 💬 Connect for discussion via GitHub Issues
-
----
-
-*Last Updated: January 2026 | Status: Automation Framework ✅ Working*
----
-*"Quality is not an act, it is a habit." — Aristotle*
-
+Last Updated: February 2026 | Status: Automation Framework ✅ Working
+"Quality is not an act, it is a habit." — Aristotle

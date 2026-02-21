@@ -24,8 +24,8 @@
 4. **Coverage:** Tests the actual business logic, not just the UI layer
 
 ## 🎯 Critical User Journeys (Automated)
-1. **User Registration & Login**
-2. **Product Search & Filtering**
-3. **Cart Management** (add/remove/update)
-4. **Checkout Process** (payment, shipping, confirmation)
-5. **Order History & Tracking**
+1. **User Registration & Login** – implemented
+2. **Product Search & Filtering** – implemented (Excel-driven)
+3. **Cart Management** – add/remove/update quantity – implemented
+4. **Checkout Process** – guest & logged-in – implemented + DB validation
+5. **Order History & Tracking** – planned

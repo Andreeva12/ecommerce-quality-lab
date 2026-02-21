@@ -120,3 +120,4 @@ jobs:
         run: |
           cd 02-local-mock-nopcommerce
           docker-compose down
+          

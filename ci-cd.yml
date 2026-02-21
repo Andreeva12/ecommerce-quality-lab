@@ -54,7 +54,7 @@ jobs:
 
       - name: Start nopCommerce in Docker
         run: |
-          cd ecommerce-quality-lab/02-local-mock-nopcommerce
+          cd 02-local-mock-nopcommerce
           docker-compose up -d
           sleep 60
           docker-compose ps
@@ -64,12 +64,12 @@ jobs:
 
       - name: Run UI Tests
         run: |
-          cd ecommerce-quality-lab/02-local-mock-nopcommerce/ui-automation
+          cd 02-local-mock-nopcommerce/ui-automation
           mvn clean test
 
       - name: Run API Tests (RestAssured)
         run: |
-          cd ecommerce-quality-lab/02-local-mock-nopcommerce/ui-automation
+          cd 02-local-mock-nopcommerce/ui-automation
           mvn test -DsuiteXmlFile=testng-api.xml
 
       - name: Run Postman Tests via Newman
@@ -77,7 +77,7 @@ jobs:
           curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
           sudo apt-get install -y nodejs
           npm install -g newman
-          cd ecommerce-quality-lab/02-local-mock-nopcommerce/api-tests/postman
+          cd 02-local-mock-nopcommerce/api-tests/postman
           newman run nopcommerce-collection.json \
             --environment nopcommerce-environment.json \
             --reporters cli,json \
@@ -86,7 +86,7 @@ jobs:
       - name: Generate Allure Report
         if: always()
         run: |
-          cd ecommerce-quality-lab/02-local-mock-nopcommerce/ui-automation
+          cd 02-local-mock-nopcommerce/ui-automation
           mvn allure:report
 
       - name: Deploy Allure Report to GitHub Pages
@@ -94,7 +94,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ecommerce-quality-lab/02-local-mock-nopcommerce/ui-automation/target/allure-report
+          publish_dir: ./02-local-mock-nopcommerce/ui-automation/target/allure-report
           destination_dir: allure-report
           keep_files: false
           publish_branch: gh-pages
@@ -104,7 +104,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
-          path: ecommerce-quality-lab/02-local-mock-nopcommerce/ui-automation/target/allure-results/
+          path: 02-local-mock-nopcommerce/ui-automation/target/allure-results/
           retention-days: 30
 
       - name: Upload Postman Results
@@ -112,11 +112,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: postman-results
-          path: ecommerce-quality-lab/02-local-mock-nopcommerce/api-tests/postman/postman-results.json
+          path: 02-local-mock-nopcommerce/api-tests/postman/postman-results.json
           retention-days: 30
 
       - name: Stop Docker containers
         if: always()
         run: |
-          cd ecommerce-quality-lab/02-local-mock-nopcommerce
+          cd 02-local-mock-nopcommerce
           docker-compose down
